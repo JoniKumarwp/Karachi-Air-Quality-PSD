@@ -1,0 +1,6 @@
+
+/* Karachi Air Pollution MyST theme customisation */
+:root { --brand:#0d47a1; --brand2:#1565c0; }
+.bd-header { background: var(--brand); }
+.bd-header .navbar-brand, .bd-header .navbar-nav a { color:#fff !important; }
+.bd-sidebar-primary { border-right:1px solid #e5e7eb; }

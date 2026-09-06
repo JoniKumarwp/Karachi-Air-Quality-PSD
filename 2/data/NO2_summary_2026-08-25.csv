@@ -1,0 +1,12 @@
+statistic,value,unit
+count,419,valid pixels
+mean,3.3027845e-05,mol/m2
+std,1.5e-05,mol/m2
+min,1.26051345e-05,mol/m2
+q1,2.1488436686922796e-05,mol/m2
+median,2.8e-05,mol/m2
+q3,4.3069043385912664e-05,mol/m2
+max,8.6132815e-05,mol/m2
+IQR,2.1580606698989868e-05,mol/m2
+upper_iqr_bound,7.543995343439747e-05,mol/m2
+possible_outliers,3,pixels

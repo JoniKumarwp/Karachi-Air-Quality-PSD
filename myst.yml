@@ -1,0 +1,23 @@
+version: 1
+project:
+  title: "Data Science Project — Karachi Air Quality"
+  description: "Karachi air-quality data science project by Joni Kumar Meghwar."
+  keywords: [Karachi, Pakistan, Air Pollution, CO, NO2, O3, SO2, Sentinel-5P, Copernicus, KNIME, Aiven]
+  authors:
+    - name: Joni Kumar Meghwar
+      affiliation: "Universitas Trunojoyo Madura"
+  toc:
+    - title: Profile
+      file: intro.md
+    - title: Materials
+      children:
+        - file: 1/Karachi_Air_Quality_Analysis.ipynb
+        - file: 2/index.md
+        - file: business-understanding.md
+        - file: data-understanding.md
+        - file: results.md
+        - file: AUDIT_REPORT.md
+site:
+  template: book-theme
+  options:
+    style: _static/custom.css

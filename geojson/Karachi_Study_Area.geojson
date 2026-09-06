@@ -1,0 +1,40 @@
+{
+  "type": "FeatureCollection",
+  "name": "Karachi_Study_Area",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Karachi Study Area",
+        "note": "Study-area bounding box; replace with an official administrative boundary if required."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              66.652885437,
+              24.759555817
+            ],
+            [
+              66.652885437,
+              25.6510581344
+            ],
+            [
+              67.5849169905,
+              25.6510581344
+            ],
+            [
+              67.5849169905,
+              24.759555817
+            ],
+            [
+              66.652885437,
+              24.759555817
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
