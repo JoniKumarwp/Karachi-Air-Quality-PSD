@@ -1,0 +1,11 @@
+openeo
+geopandas
+shapely
+rasterio
+scikit-learn
+pandas
+numpy
+scipy
+matplotlib
+plotly
+jupyter
