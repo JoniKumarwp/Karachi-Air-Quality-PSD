@@ -7,8 +7,7 @@
 **Course:** Proyek Sains Data  
 **Study area:** Karachi, Sindh, Pakistan
 
-This repository is a Karachi adaptation of the original course project at:
-https://github.com/mfarhancode/PSD
+ 
 
 ## Audit status
 
