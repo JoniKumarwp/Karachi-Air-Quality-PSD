@@ -24,6 +24,7 @@ title: Profile
 
 - [Karachi Air Quality Analysis](1/Karachi_Air_Quality_Analysis.ipynb)
 - [Air Quality Data Integration in Karachi using Aiven PostgreSQL, pgAdmin, and KNIME](2/index.md)
+- [Mapping and Classification of Paddy Fields and Settlements Using Sentinel-2A Imagery](3/index.md)
 - [Strict Audit Report](AUDIT_REPORT.md)
 
 > The original repository remains the methodological reference. This project changes the study area and student information, but it does not replace missing data with fabricated values.
