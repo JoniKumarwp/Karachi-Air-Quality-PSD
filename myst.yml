@@ -19,6 +19,11 @@ project:
         - file: data-understanding.md
         - file: results.md
         - file: AUDIT_REPORT.md
+    - title: "Guidelines & Specifications for Mid-Term Assignment Projects"
+      children:
+        - file: uts/business-understanding-uts.md
+        - file: uts/data-understanding-uts.md
+        - file: uts/deployment-guide.md
 site:
   template: book-theme
   options:

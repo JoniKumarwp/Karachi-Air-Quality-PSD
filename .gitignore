@@ -7,3 +7,7 @@ __pycache__/
 data/raw/
 .DS_Store
 _build/
+*.tif
+*.tiff
+uts/data/csv/hasil_s2_piksel/job_*/
+uts/data/csv/hasil_s2_piksel/daftar_job.csv
