@@ -2,63 +2,88 @@
 title: "Streamlit App Deployment Guide"
 ---
 
-# Deployment Streamlit dan GitHub Pages
+# Panduan Deployment Aplikasi Streamlit
 
 **Joni Kumar Meghwar · 240411100234**
 
-## 1. Jalankan dan verifikasi proyek
+Dokumen ini menjelaskan arsitektur, deployment, dan pembaruan dashboard klasifikasi tutupan lahan Jawa Timur. Aplikasi Streamlit dan dokumentasi proyek berada di layanan berbeda: Streamlit menyajikan dashboard, sedangkan GitHub Pages menyajikan dokumentasi.
 
-Dari folder utama proyek:
+## Tautan aplikasi dan repositori
+
+- **Dashboard Streamlit:** [psd-uts-joni.streamlit.app](https://psd-uts-joni.streamlit.app/)
+- **Repositori GitHub:** [JoniKumarwp/Karachi-Air-Quality-PSD](https://github.com/JoniKumarwp/Karachi-Air-Quality-PSD)
+- **Dokumentasi GitHub Pages:** [Karachi Air Quality PSD](https://jonikumarwp.github.io/Karachi-Air-Quality-PSD/)
+- **Kode aplikasi:** [`uts/deploy/app.py`](https://github.com/JoniKumarwp/Karachi-Air-Quality-PSD/blob/main/uts/deploy/app.py)
+- **Dependensi aplikasi:** [`uts/deploy/requirements.txt`](https://github.com/JoniKumarwp/Karachi-Air-Quality-PSD/blob/main/uts/deploy/requirements.txt)
+
+## Arsitektur dan berkas dashboard
+
+Notebook dan pipeline Python mengolah data sampel, melatih model, serta menyimpan keluaran analisis. Aplikasi Streamlit membaca berkas hasil tersebut dari `uts/deploy/`, lalu menampilkan metrik evaluasi, tabel, dan peta interaktif. Dengan demikian, dashboard menggunakan keluaran proyek yang disimpan di repositori; ia tidak menjalankan ulang ekstraksi citra satelit setiap kali halaman dibuka.
+
+Berkas hasil utama yang dibaca dashboard meliputi:
+
+- `metrik_evaluasi_knn.csv` dan `confusion_matrix.csv` untuk evaluasi model.
+- `ringkasan_model_knn.csv`, `kepentingan_fitur.csv`, dan `kurva_validasi_k.csv` untuk ringkasan serta analisis model.
+- `prediksi_data_uji.csv` untuk membandingkan label aktual dan prediksi.
+- `map_lulc.html`, `map_lulc_predicted.html`, dan berkas GeoJSON untuk peta sampel dan evaluasi.
+
+Daftar pustaka deployment dikelola di `uts/deploy/requirements.txt`. Pertahankan berkas hasil yang dibutuhkan dashboard saat memperbarui proyek. Jangan memasukkan kredensial Copernicus, token, atau rahasia ke repositori.
+
+## Deploy atau hubungkan aplikasi Streamlit
+
+Aplikasi ini sudah tersedia di [psd-uts-joni.streamlit.app](https://psd-uts-joni.streamlit.app/). Untuk membuat ulang atau menghubungkan deployment di Streamlit Community Cloud:
+
+1. Masuk ke [Streamlit Community Cloud](https://share.streamlit.io/) menggunakan akun GitHub yang memiliki akses ke repositori.
+2. Pilih **Create app** lalu pilih **Deploy a public app from GitHub**.
+3. Gunakan konfigurasi berikut:
+
+   | Pengaturan | Nilai |
+   | --- | --- |
+   | Repository | `JoniKumarwp/Karachi-Air-Quality-PSD` |
+   | Branch | `main` |
+   | Main file path | `uts/deploy/app.py` |
+   | App URL | `psd-uts-joni` |
+
+4. Pilih **Deploy**. Streamlit Community Cloud memasang dependensi aplikasi dari `uts/deploy/requirements.txt` dan menjalankan berkas utama.
+5. Setelah proses deployment selesai, periksa dashboard dan pastikan tabel, metrik, serta peta tampil. Jika deployment mengalami kegagalan, buka log aplikasi di Streamlit Community Cloud untuk melihat pesan error.
+
+## Menjalankan dashboard secara lokal
+
+Dari direktori utama repository, siapkan environment Python, instal dependensi dashboard, lalu jalankan aplikasi:
 
 ```bash
-python -m pip install -r requirements.txt
-python uts/code/crawling.py --plan
-python uts/code/crawling.py
-python uts/code/pipeline.py train
+python -m venv .venv
+```
+
+Aktifkan environment `.venv`, kemudian:
+
+```bash
+python -m pip install -r uts/deploy/requirements.txt
 python -m streamlit run uts/deploy/app.py
 ```
 
-Buat akun pada [Copernicus Data Space](https://dataspace.copernicus.eu/). Script menggunakan `authenticate_oidc()` dan meminta login di browser. Password tidak perlu disimpan di Python atau GitHub. Periksa kuota akun sebelum menjalankan batch job. Akun Copernicus diperlukan untuk mengambil/memproses data satelit; dashboard yang membaca hasil lokal tidak memerlukan login Copernicus.
+Dashboard memerlukan berkas hasil yang disimpan di `uts/deploy/`. Untuk menjalankan pipeline data atau menghasilkan ulang model, ikuti notebook dan instruksi di direktori `uts/code/`; pengambilan citra Copernicus memerlukan akun dan autentikasi tersendiri.
 
-Jika ingin menjalankan dari Google Colab, buka `uts/code/Run_in_Colab.ipynb`, jalankan cell berurutan, upload ZIP proyek, login melalui tautan device login yang dicetak, lalu unduh ZIP hasil. Colab dapat terputus untuk pekerjaan lama; gunakan komputer lokal untuk proses yang lebih stabil. Catatan hasil training perlu disimpan/diunggah sebelum sesi berakhir.
+## Memperbarui dashboard dan dokumentasi
 
-## 2. Upload ke GitHub
-
-Buat repository milik Anda. Upload isi `Joni_PSD_UTS` sehingga `uts` berada langsung di root repository. Jangan upload folder job GeoTIFF atau kredensial. Setelah model dilatih, sertakan hasil di `uts/deploy`, tabel poligon di `uts/data/csv/poligon`, dan model di `uts/models`.
-
-Jika memakai Git, sesudah repository remote Anda ditambahkan:
+Streamlit Community Cloud terhubung ke repository GitHub. Setelah perubahan aplikasi atau berkas data yang digunakan dashboard diperiksa, commit dan push perubahan ke `main`:
 
 ```bash
-git add .
-git commit -m "Add Joni East Java LULC UTS project"
-git push -u origin main
+git add uts/
+git commit -m "Update UTS dashboard"
+git push origin main
 ```
 
-## 3. Streamlit Community Cloud
+Streamlit Community Cloud mendeteksi perubahan branch yang terhubung dan menjalankan ulang aplikasi. Periksa log deployment dan buka URL aplikasi untuk memastikan pembaruan berhasil.
 
-Masuk di [Streamlit Community Cloud](https://share.streamlit.io/) menggunakan GitHub. Buat app dari repository Anda, branch `main`, main file path **`uts/deploy/app.py`**. Gunakan Python 3.12 pada pengaturan deployment jika tersedia. Dependencies untuk dashboard berada di `uts/deploy/requirements.txt`.
+Dokumentasi ini dibangun melalui workflow GitHub Pages [`.github/workflows/deploy.yml`](https://github.com/JoniKumarwp/Karachi-Air-Quality-PSD/blob/main/.github/workflows/deploy.yml). Workflow berjalan otomatis ketika ada push ke `main` atau dapat dijalankan manual melalui tab **Actions**. Workflow membangun situs MyST (`myst build --html`) dan menerbitkan hasilnya ke GitHub Pages; tidak perlu membuat branch `gh-pages` secara manual.
 
-Dashboard dapat di-deploy sebelum training, tetapi akan jelas menampilkan status model belum dilatih. Untuk submission hasil klasifikasi, selesaikan ekstraksi/training dan push hasilnya terlebih dahulu.
+Halaman panduan ini tersedia di:
 
-Setelah berhasil, salin URL Streamlit asli ke README dan bagian di bawah. Link ini belum tersedia karena belum ada deployment pada akun Anda.
+`https://jonikumarwp.github.io/Karachi-Air-Quality-PSD/deployment-guide/`
 
-**URL Streamlit:** pending deployment.  
-**URL repository:** isi setelah repository dibuat.
+## Referensi
 
-## 4. Dokumentasi GitHub Pages seperti referensi
-
-Workflow `.github/workflows/deploy-book.yml` membangun Jupyter Book dari dokumen CRISP-DM dan notebooks tanpa mengeksekusi remote jobs. Di Settings → Actions → General, izinkan workflow memakai read/write repository permissions jika diperlukan. Setelah workflow sukses dan branch `gh-pages` muncul, di Settings → Pages pilih deploy from branch `gh-pages`, folder root.
-
-Panduan ini akan berada pada `https://USERNAME.github.io/REPOSITORY/uts/deployment-guide.html`. Ganti USERNAME/REPOSITORY sesuai akun Anda; ini format URL, bukan link deployment yang sudah aktif.
-
-## 5. Checklist submission
-
-- Data digitasi milik sendiri, laporan validasi dan lima kelas.
-- Business understanding dengan tujuan yang jelas.
-- Ekstraksi citra aktual, data preparation, model dan evaluation.
-- Layer yang bisa dicentang di atas citra satelit.
-- Notebook, CSV evaluasi dan model hasil data Anda.
-- Link GitHub Pages dan Streamlit yang benar-benar dapat dibuka.
- 
- 
-- [Streamlit deployment documentation](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app)
+- [Dokumentasi deployment Streamlit Community Cloud](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app)
+- [Repositori proyek](https://github.com/JoniKumarwp/Karachi-Air-Quality-PSD)
+- [Aplikasi Streamlit](https://psd-uts-joni.streamlit.app/)
