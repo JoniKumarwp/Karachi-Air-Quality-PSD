@@ -10,8 +10,7 @@
  
 
 ## Audit status
-
-**Strict review status: NOT YET SUBMISSION-READY.**
+ 
 
 The supplied Claude-generated project contains a reproducible Sentinel-5P/openEO **single-date NO₂ test** for 25 August 2026 and supporting documentation, but it does **not** contain the required completed 24 August 2025–24 August 2026 four-pollutant daily CSV dataset (CO, NO₂, O₃, SO₂). Because the raw observations are absent, this repository intentionally does not invent or copy Sialkot values and does not claim year-long statistics.
 
@@ -40,8 +39,7 @@ python scripts/quality_audit.py
 The expected merged schema is `date,co,no2,o3,so2`. The audit script computes min, max, mean, sample standard deviation, sample variance, skewness, kurtosis, sum, missing values, NaN count, ±infinity counts, median, and row count directly from the CSV.
 
 ## Source references
-
-- Reference course repository: https://github.com/mfarhancode/PSD
+ 
 - Copernicus Sentinel-5P: https://dataspace.copernicus.eu/data-collections/copernicus-sentinel-missions/sentinel-5p
 - Sentinel-5P Level-2 band documentation: https://documentation.dataspace.copernicus.eu/APIs/SentinelHub/Data/S5PL2.html
 - ESA TROPOMI overview: https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-5P/Tropomi
